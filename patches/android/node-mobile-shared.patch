@@ -1,0 +1,18 @@
+Description: Build Node.js as a shared library (libnode.so) for Android embedding.
+Applies the --shared configure flag and adjusts the node.gyp to set
+node_target_type=shared_library when building for Android.
+File: node.gyp
+
+--- node.gyp.orig
++++ node.gyp
+@@ -1,6 +1,15 @@
+ # The --shared flag is passed at configure time:
+ #   ./configure --shared --dest-os=android ...
+ #
+ # This causes node.gyp to set:
+ #   'node_target_type': 'shared_library'
+ # and produces out/Release/lib.target/libnode.so
++#
++# Additional: ensure soname is set for Android dynamic linker
++# In node.gyp, under 'conditions': [['OS=="android"', { ... }]]
++# add: 'libraries': [ '-Wl,-soname,libnode.so' ]

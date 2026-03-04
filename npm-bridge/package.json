@@ -1,0 +1,22 @@
+{
+  "name": "@nodejs-mobile/bridge",
+  "version": "24.14.0",
+  "description": "Node.js-side bridge API for nodejs-mobile (Android & iOS)",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": [
+    "nodejs",
+    "mobile",
+    "android",
+    "ios",
+    "bridge",
+    "react-native"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejs-mobile/nodejs-mobile"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

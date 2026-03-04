@@ -1,0 +1,9 @@
+{
+  "name": "nodejs-mobile-bootstrap",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Default nodejs-project assets shipped with nodejs-mobile AAR",
+  "dependencies": {
+    "@nodejs-mobile/bridge": "file:../../../../../npm-bridge"
+  }
+}

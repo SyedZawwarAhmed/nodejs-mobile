@@ -1,0 +1,18 @@
+# Node.js source (500MB+ — obtained via scripts/setup.sh)
+nodejs-src/
+
+# Build outputs
+prebuilt/*/libnode.so
+prebuilt/include/
+android/lib/src/main/cpp/include/
+android/lib/src/main/jniLibs/
+
+# Android build
+.gradle/
+build/
+*.iml
+.idea/
+local.properties
+
+# Claude Code local settings
+.claude/

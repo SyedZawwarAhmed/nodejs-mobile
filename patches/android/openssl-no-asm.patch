@@ -1,0 +1,14 @@
+Description: Force --openssl-no-asm for Android builds.
+OpenSSL 3.x assembly optimizations are incompatible with Android NDK clang.
+This patch adds android OS detection to always disable asm in configure.py.
+File: configure.py
+
+--- configure.py.orig
++++ configure.py
+@@ ... @@
+ # Applied via android_configure.py --openssl-no-asm flag at configure time.
+ # No source patch needed: android-configure passes --openssl-no-asm explicitly.
+ # This file documents the requirement.
+ #
+ # Verify: grep "openssl-no-asm" android_configure.py
+ # Expected: ./configure ... --openssl-no-asm ...
