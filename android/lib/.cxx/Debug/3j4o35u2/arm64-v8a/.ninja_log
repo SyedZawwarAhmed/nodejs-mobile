@@ -1,0 +1,12 @@
+# ninja log v5
+0	2563	1772733775786048602	CMakeFiles/node_bridge.dir/node_bridge.cpp.o	4e769ce01cd635
+3	76	1772734279769655932	CMakeFiles/cpufeatures.dir/home/zawwar/Android/Sdk/ndk/26.1.10909125/sources/android/cpufeatures/cpu-features.c.o	2859e313c04ec372
+2567	2762	1772733775969049170	/home/zawwar/Projects/nodejs-mobile/android/lib/build/intermediates/cxx/Debug/3j4o35u2/obj/arm64-v8a/libnode_bridge.so	23602dc9a0f820a8
+76	116	1772734279808656059	/home/zawwar/Projects/nodejs-mobile/android/lib/build/intermediates/cxx/Debug/3j4o35u2/obj/arm64-v8a/libcpufeatures.so	58531b429297ecf
+3	257	1772734472705285972	/home/zawwar/Projects/nodejs-mobile/android/lib/build/intermediates/cxx/Debug/3j4o35u2/obj/arm64-v8a/libnode_bridge.so	23602dc9a0f820a8
+3	1799	1772734646057855881	CMakeFiles/node_bridge.dir/node_bridge.cpp.o	4e769ce01cd635
+1799	2352	1772734646212856392	/home/zawwar/Projects/nodejs-mobile/android/lib/build/intermediates/cxx/Debug/3j4o35u2/obj/arm64-v8a/libnode_bridge.so	23602dc9a0f820a8
+3	2112	1772734821417434968	CMakeFiles/node_bridge.dir/node_bridge.cpp.o	4e769ce01cd635
+2113	2586	1772734821606435594	/home/zawwar/Projects/nodejs-mobile/android/lib/build/intermediates/cxx/Debug/3j4o35u2/obj/arm64-v8a/libnode_bridge.so	23602dc9a0f820a8
+2	1766	1772734914193742127	CMakeFiles/node_bridge.dir/node_bridge.cpp.o	4e769ce01cd635
+1767	2230	1772734914337742605	/home/zawwar/Projects/nodejs-mobile/android/lib/build/intermediates/cxx/Debug/3j4o35u2/obj/arm64-v8a/libnode_bridge.so	23602dc9a0f820a8

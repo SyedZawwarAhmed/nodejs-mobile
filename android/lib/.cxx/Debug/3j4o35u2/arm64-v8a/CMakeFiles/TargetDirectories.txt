@@ -1,0 +1,3 @@
+/home/zawwar/Projects/nodejs-mobile/android/lib/.cxx/Debug/3j4o35u2/arm64-v8a/CMakeFiles/node_bridge.dir
+/home/zawwar/Projects/nodejs-mobile/android/lib/.cxx/Debug/3j4o35u2/arm64-v8a/CMakeFiles/edit_cache.dir
+/home/zawwar/Projects/nodejs-mobile/android/lib/.cxx/Debug/3j4o35u2/arm64-v8a/CMakeFiles/rebuild_cache.dir

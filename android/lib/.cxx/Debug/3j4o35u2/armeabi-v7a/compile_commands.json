@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/zawwar/Projects/nodejs-mobile/android/lib/.cxx/Debug/3j4o35u2/armeabi-v7a",
+  "command": "/home/zawwar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=armv7-none-linux-androideabi24 --sysroot=/home/zawwar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnode_bridge_EXPORTS -I/home/zawwar/Projects/nodejs-mobile/android/lib/src/main/cpp/include -I/home/zawwar/Projects/nodejs-mobile/android/lib/src/main/cpp/include/node -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++17 -fno-limit-debug-info  -fPIC -fexceptions -frtti -Wall -Wno-unused-parameter -std=c++20 -o CMakeFiles/node_bridge.dir/node_bridge.cpp.o -c /home/zawwar/Projects/nodejs-mobile/android/lib/src/main/cpp/node_bridge.cpp",
+  "file": "/home/zawwar/Projects/nodejs-mobile/android/lib/src/main/cpp/node_bridge.cpp"
+}
+]

@@ -5,6 +5,7 @@ nodejs-src/
 prebuilt/*/libnode.so
 prebuilt/include/
 android/lib/src/main/cpp/include/
+android/lib/src/main/cpp/jniLibs/
 android/lib/src/main/jniLibs/
 
 # Android build

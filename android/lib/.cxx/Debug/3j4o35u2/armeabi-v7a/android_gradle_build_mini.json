@@ -1,0 +1,29 @@
+{
+  "buildFiles": [
+    "/home/zawwar/Projects/nodejs-mobile/android/lib/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/zawwar/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/zawwar/Projects/nodejs-mobile/android/lib/.cxx/Debug/3j4o35u2/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/zawwar/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/zawwar/Projects/nodejs-mobile/android/lib/.cxx/Debug/3j4o35u2/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "node_bridge::@6890427a1f51a3e7e1df": {
+      "artifactName": "node_bridge",
+      "abi": "armeabi-v7a",
+      "output": "/home/zawwar/Projects/nodejs-mobile/android/lib/build/intermediates/cxx/Debug/3j4o35u2/obj/armeabi-v7a/libnode_bridge.so",
+      "runtimeFiles": [
+        "/home/zawwar/Projects/nodejs-mobile/android/lib/src/main/cpp/jniLibs/armeabi-v7a/libnode.so"
+      ]
+    }
+  }
+}

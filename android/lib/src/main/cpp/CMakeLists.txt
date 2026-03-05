@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22.1)
 project(nodejs_mobile_bridge CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ── libnode (pre-built shared library) ──────────────────────────────────────
@@ -15,7 +15,8 @@ set_target_properties(libnode PROPERTIES
 add_library(node_bridge SHARED node_bridge.cpp)
 
 target_include_directories(node_bridge PRIVATE
-    ${CMAKE_SOURCE_DIR}/include          # Node.js headers (node.h, uv.h, v8.h)
+    ${CMAKE_SOURCE_DIR}/include          # V8 headers (v8.h, etc.)
+    ${CMAKE_SOURCE_DIR}/include/node     # Node.js + libuv headers (node.h, uv.h, uv/*)
 )
 
 target_compile_options(node_bridge PRIVATE

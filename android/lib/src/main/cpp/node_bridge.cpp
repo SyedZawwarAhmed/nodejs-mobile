@@ -128,56 +128,46 @@ Java_com_nodejs_mobile_NodejsRuntime_nativeSend(
 static void NodeThreadMain(void*) {
   LOGI("Node.js thread starting...");
 
-  // argv: ["node", "<script_path>"]
   std::vector<std::string> args = {"node", g_script_path};
-  std::vector<char*> argv;
-  for (auto& s : args) argv.push_back(const_cast<char*>(s.c_str()));
-  int argc = (int)argv.size();
 
-  // Register our linked native module before Node.js starts
-  static node_module bridge_module = {
+  // Register our linked native module before Node.js starts.
+  // Field order: nm_version, nm_flags, nm_dso_handle, nm_filename,
+  //              nm_register_func, nm_context_register_func, nm_modname, nm_priv, nm_link
+  static node::node_module bridge_module = {
       NODE_MODULE_VERSION,
-      NM_F_LINKED,
-      nullptr,
-      nullptr,
-      "mobile_bridge",
-      nullptr,
-      RegisterBridgeModule,
-      nullptr,
-      0,
+      node::ModuleFlags::kLinked,
+      nullptr,              // nm_dso_handle
+      nullptr,              // nm_filename
+      nullptr,              // nm_register_func (non-context-aware, unused)
+      RegisterBridgeModule, // nm_context_register_func
+      "mobile_bridge",      // nm_modname
+      nullptr,              // nm_priv
+      nullptr,              // nm_link
   };
   node_module_register(&bridge_module);
 
-  // Initialize Node.js
-  argv = {const_cast<char*>("node"), const_cast<char*>(g_script_path.c_str())};
-  std::vector<std::string> errors;
-
-  auto init_result = node::InitializeOncePerProcess(
-      {static_cast<int>(argv.size()), argv.data()},
-      {node::ProcessInitializationFlags::kNoInitializeNodeV8Platform});
-
+  // InitializeOncePerProcess initialises V8 (including platform) for us.
+  auto init_result = node::InitializeOncePerProcess(args);
   if (init_result->exit_code() != 0) {
     LOGE("Node.js initialization failed: exit_code=%d", init_result->exit_code());
     return;
   }
 
-  g_platform = node::MultiIsolatePlatform::Create(4 /*threads*/);
-  v8::V8::InitializePlatform(g_platform);
-  v8::V8::Initialize();
+  // Reuse the platform that Node.js created internally.
+  g_platform = init_result->platform();
 
-  uv_loop_t loop;
-  uv_loop_init(&loop);
-
-  // Async handle so Android can post messages into the loop
-  uv_async_init(&loop, &g_async_handle, OnAsyncMessage);
-
+  std::vector<std::string> exec_args;
+  std::vector<std::string> errors;
   auto isolate_setup = node::CommonEnvironmentSetup::Create(
-      g_platform, &errors, {argc, argv.data()}, {});
+      g_platform, &errors, args, exec_args);
 
   if (!isolate_setup) {
     for (auto& e : errors) LOGE("Setup error: %s", e.c_str());
     return;
   }
+
+  // Async handle on the environment's event loop so Android can post messages.
+  uv_async_init(isolate_setup->event_loop(), &g_async_handle, OnAsyncMessage);
 
   g_isolate = isolate_setup->isolate();
 
@@ -189,14 +179,13 @@ static void NodeThreadMain(void*) {
 
     auto* env = isolate_setup->env();
 
-    // Add the bridge as a linked binding available via
-    // require('mobile_bridge') in Node.js code
+    // Expose mobile_bridge via require('mobile_bridge').
     node::AddLinkedBinding(env, bridge_module);
 
     node::LoadEnvironment(env,
-        "const bridge = require('mobile_bridge');"
-        "process._linkedBinding = require;"  // expose for user code
-        "require(process.argv[1]);");         // run the user script
+        // embedderRequire only allows built-in modules; use Module._load
+        // to load the user script from the filesystem.
+        "require('module')._load(process.argv[1], null, true);");
 
     node::SpinEventLoop(env).FromMaybe(1);
     node::Stop(env);
@@ -204,7 +193,6 @@ static void NodeThreadMain(void*) {
 
   g_js_message_callback.Reset();
   node::TearDownOncePerProcess();
-  uv_loop_close(&loop);
 
   LOGI("Node.js thread exiting.");
 }
