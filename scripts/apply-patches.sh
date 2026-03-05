@@ -14,19 +14,39 @@ fi
 
 echo "==> Applying Android patches to Node.js v24 source..."
 
-# Patch 1: V8 trap handler — disable on Android (Node.js v24 includes this in
-# android-patches/ already; this script ensures it's applied via the upstream mechanism)
-if [ -f "$NODEJS_SRC/android-patches/trap-handler.h.patch" ]; then
-  echo "  [1/2] V8 trap-handler patch (bundled with Node.js v24 source)"
-  cd "$NODEJS_SRC"
-  python3 android-configure patch 2>/dev/null || true
-  echo "      -> done"
-else
-  echo "  [1/2] V8 trap-handler: applying from our patches/"
-  cd "$NODEJS_SRC"
-  patch -f -p1 deps/v8/src/trap-handler/trap-handler.h \
-    < "$PATCHES_DIR/v8-trap-handler-android.patch" || true
-fi
+# Patch 1: V8 trap handler — unconditionally disable it.
+# The upstream android-patches/ mechanism uses `patch` which fails when the
+# file content doesn't exactly match the diff. We apply it directly instead.
+echo "  [1/2] V8 trap-handler patch (direct edit — version-agnostic)"
+python3 - "$NODEJS_SRC/deps/v8/src/trap-handler/trap-handler.h" <<'PYEOF'
+import sys, re
+
+path = sys.argv[1]
+with open(path) as f:
+    content = f.read()
+
+# Idempotent: already patched if the block is absent
+if '#define V8_TRAP_HANDLER_SUPPORTED false' in content and '#if V8_HOST_ARCH_X64' not in content:
+    print("      -> already patched, skipping")
+    sys.exit(0)
+
+# Replace the whole conditional block with an unconditional false.
+# The block starts at the first architecture-guard comment and ends at #endif.
+patched = re.sub(
+    r'// X64 on Linux.*?^#endif',
+    '#define V8_TRAP_HANDLER_SUPPORTED false',
+    content,
+    count=1,
+    flags=re.DOTALL | re.MULTILINE
+)
+if patched == content:
+    print("      -> WARNING: pattern not found, file may be in unexpected state")
+    sys.exit(0)
+
+with open(path, 'w') as f:
+    f.write(patched)
+print("      -> done")
+PYEOF
 
 # Patch 2: node-mobile bridge native module registration (injected at link time)
 # No source patch needed — we use node::AddLinkedBinding() from the JNI bridge.
